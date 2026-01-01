@@ -24,7 +24,7 @@ class Resume(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     filename = Column(String)
     extracted_text = Column(Text)       
-    skills = Column(String) # We will store as comma-separated string for SQLite simplicity
+    skills = Column(String) 
     experience_years = Column(Float)    
     
     owner = relationship("User", back_populates="resumes")
@@ -38,7 +38,7 @@ class Job(Base):
     description = Column(Text)
     location = Column(String)
     salary_range = Column(String)
-    required_skills = Column(String) # Comma-separated string
+    required_skills = Column(String)
     
     recruiter = relationship("User", back_populates="jobs")
     applications = relationship("Application", back_populates="job")
@@ -52,5 +52,7 @@ class Application(Base):
     match_percentage = Column(Float)
     status = Column(String, default="Applied")
     
-    job = relationship("Job", back_populates="job")
+    # --- THE FIX IS IN THE LINE BELOW ---
+    # It must point to 'applications', not 'job'
+    job = relationship("Job", back_populates="applications") 
     applicant = relationship("User", back_populates="applications")
