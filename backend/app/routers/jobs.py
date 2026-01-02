@@ -4,6 +4,7 @@ from app.database import get_db
 from app import models
 from pydantic import BaseModel
 from typing import List
+from app.services.salary_predictor import predict_salary # <--- Add this
 
 router = APIRouter()
 
@@ -32,12 +33,17 @@ def match_jobs(request: SkillsRequest, db: Session = Depends(get_db)):
         match_count = len(common_skills)
         
         if match_count > 0:
+
+            exp = job.min_experience if hasattr(job, "min_experience") and job.min_experience else 1.0
+            predicted_salary = predict_salary(exp)
+
             matched_jobs.append({
                 "title": job.title,
                 "company": job.salary_range, 
                 "location": job.location,
                 "match_score": match_count,
-                "common_skills": list(common_skills)
+                "common_skills": list(common_skills),
+                "ai_salary": predicted_salary
             })
 
     # 4. Sort by best match
