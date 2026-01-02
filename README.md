@@ -45,7 +45,7 @@ An intelligent recruitment platform that uses **Artificial Intelligence (NLP & M
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-link-here>
+git clone <[(https://github.com/mohitverma174/AI-Job-Searching-Portal)>
 cd AI_Job_Portal
 
 
